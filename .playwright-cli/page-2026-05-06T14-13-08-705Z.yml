@@ -1,0 +1,281 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e15]:
+    - generic [ref=e16]:
+      - link "🍀 天然卷怪兽" [ref=e17] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e18]:
+          - img "🍀" [ref=e20]
+          - text: 天然卷怪兽
+      - link "主页" [ref=e23] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e24]:
+          - img [ref=e25]
+          - text: 主页
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic:
+              - img
+            - textbox "搜索" [ref=e30]
+          - generic:
+            - generic: 找不到相关结果。
+        - button "Display Settings" [ref=e31]:
+          - img [ref=e32]
+        - generic [ref=e35]:
+          - button "Light/Dark Mode" [ref=e36]:
+            - img [ref=e39]
+            - img [ref=e43]
+          - menu "Light/Dark Mode":
+            - menuitem "亮色":
+              - generic:
+                - img
+              - text: 亮色
+            - menuitem "暗色":
+              - generic:
+                - img
+              - text: 暗色
+            - menuitem "跟随系统":
+              - generic:
+                - img
+              - text: 跟随系统
+    - generic:
+      - generic:
+        - link "主页":
+          - /url: /
+          - generic:
+            - img
+            - text: 主页
+          - img
+    - generic [ref=e45]:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - text: 主题色相
+              - button "Reset to Default":
+                - generic:
+                  - generic:
+                    - img
+            - generic:
+              - generic: "250"
+          - generic:
+            - slider "主题色相": "250"
+        - generic:
+          - generic:
+            - text: 壁纸模式
+            - button "Reset to Default":
+              - generic:
+                - generic:
+                  - img
+          - generic:
+            - button "横幅壁纸":
+              - generic:
+                - img
+              - generic: 横幅壁纸
+            - button "全屏透明":
+              - generic:
+                - img
+              - generic: 全屏透明
+              - generic:
+                - img
+            - button "纯色背景":
+              - generic:
+                - img
+              - generic: 纯色背景
+        - generic:
+          - generic:
+            - text: 透明设置
+            - button "Reset to Default":
+              - generic:
+                - generic:
+                  - img
+          - generic:
+            - generic:
+              - generic:
+                - generic: 壁纸透明度
+                - generic: 80%
+              - slider "壁纸透明度": "80"
+            - generic:
+              - generic:
+                - generic: 背景模糊度
+                - generic: 10.0px
+              - slider "背景模糊度": "10"
+            - generic:
+              - generic:
+                - generic: 卡片透明度
+                - generic: 50%
+              - slider "卡片透明度": "50"
+  - text: "|"
+  - generic [ref=e47]:
+    - main [ref=e49]:
+      - heading [level=1] [ref=e50]
+      - generic [ref=e52]:
+        - link "Firefly 一款清新美观的 Astro 博客主题模板" [ref=e53] [cursor=pointer]:
+          - /url: /posts/firefly/
+          - generic [ref=e54]:
+            - generic:
+              - generic:
+                - img "Firefly 一款清新美观的 Astro 博客主题模板"
+            - img [ref=e56]
+            - generic [ref=e58]:
+              - heading "Firefly 一款清新美观的 Astro 博客主题模板" [level=3] [ref=e59]
+              - generic [ref=e60]:
+                - generic [ref=e61]: Markdown
+                - generic [ref=e62]: Firefly
+                - generic [ref=e63]: 博客
+                - generic [ref=e64]: "+2"
+        - link "Firefly 简单使用指南" [ref=e65] [cursor=pointer]:
+          - /url: /posts/guide/
+          - generic [ref=e66]:
+            - generic:
+              - generic:
+                - img "Firefly 简单使用指南"
+            - img [ref=e68]
+            - generic [ref=e70]:
+              - heading "Firefly 简单使用指南" [level=3] [ref=e71]
+              - generic [ref=e72]:
+                - generic [ref=e73]: Firefly
+                - generic [ref=e74]: 博客
+                - generic [ref=e75]: Markdown
+                - generic [ref=e76]: "+1"
+        - link "Firefly 代码块示例" [ref=e77] [cursor=pointer]:
+          - /url: /posts/code-examples/
+          - generic [ref=e78]:
+            - generic:
+              - generic:
+                - img "Firefly 代码块示例"
+            - generic [ref=e79]:
+              - heading "Firefly 代码块示例" [level=3] [ref=e80]
+              - generic [ref=e81]:
+                - generic [ref=e82]: Markdown
+                - generic [ref=e83]: Firefly
+        - link "Firefly 布局系统详解" [ref=e84] [cursor=pointer]:
+          - /url: /posts/firefly-layout-system/
+          - generic [ref=e85]:
+            - generic:
+              - generic:
+                - img "Firefly 布局系统详解"
+            - generic [ref=e86]:
+              - heading "Firefly 布局系统详解" [level=3] [ref=e87]
+              - generic [ref=e88]:
+                - generic [ref=e89]: Firefly
+                - generic [ref=e90]: 布局
+                - generic [ref=e91]: 博客
+                - generic [ref=e92]: "+1"
+        - link "Firefly 文章加密" [ref=e93] [cursor=pointer]:
+          - /url: /posts/encrypted-demo/
+          - generic [ref=e94]:
+            - img [ref=e96]
+            - img [ref=e99]
+            - generic [ref=e101]:
+              - heading "Firefly 文章加密" [level=3] [ref=e102]
+              - generic [ref=e103]:
+                - generic [ref=e104]: 示例
+                - generic [ref=e105]: 密码保护
+        - link "KaTeX 数学公式示例" [ref=e106] [cursor=pointer]:
+          - /url: /posts/katex-math-example/
+          - generic [ref=e107]:
+            - img [ref=e109]
+            - generic [ref=e111]:
+              - heading "KaTeX 数学公式示例" [level=3] [ref=e112]
+              - generic [ref=e113]:
+                - generic [ref=e114]: KaTeX
+                - generic [ref=e115]: Math
+                - generic [ref=e116]: 示例
+        - link "MDX 格式文章示例" [ref=e117] [cursor=pointer]:
+          - /url: /posts/mdx-example/
+          - generic [ref=e118]:
+            - img [ref=e120]
+            - generic [ref=e122]:
+              - heading "MDX 格式文章示例" [level=3] [ref=e123]
+              - generic [ref=e124]:
+                - generic [ref=e125]: MDX
+                - generic [ref=e126]: Markdown
+                - generic [ref=e127]: 文文章示例
+        - link "草稿示例" [ref=e128] [cursor=pointer]:
+          - /url: /posts/draft/
+          - generic [ref=e129]:
+            - img [ref=e131]
+            - generic [ref=e133]:
+              - heading "草稿示例" [level=3] [ref=e134]
+              - generic [ref=e135]:
+                - generic [ref=e136]: Markdown
+                - generic [ref=e137]: 博客
+                - generic [ref=e138]: 演示
+        - link "Markdown 扩展功能" [ref=e139] [cursor=pointer]:
+          - /url: /posts/markdown-extended/
+          - generic [ref=e140]:
+            - img [ref=e142]
+            - generic [ref=e144]:
+              - heading "Markdown 扩展功能" [level=3] [ref=e145]
+              - generic [ref=e146]:
+                - generic [ref=e147]: 演示
+                - generic [ref=e148]: 示例
+                - generic [ref=e149]: Markdown
+                - generic [ref=e150]: "+1"
+        - link "Markdown Mermaid 图表" [ref=e151] [cursor=pointer]:
+          - /url: /posts/markdown-mermaid/
+          - generic [ref=e152]:
+            - img [ref=e154]
+            - generic [ref=e156]:
+              - heading "Markdown Mermaid 图表" [level=3] [ref=e157]
+              - generic [ref=e158]:
+                - generic [ref=e159]: Markdown
+                - generic [ref=e160]: 博客
+                - generic [ref=e161]: Mermaid
+                - generic [ref=e162]: "+1"
+        - link "Markdown PlantUML 图表" [ref=e163] [cursor=pointer]:
+          - /url: /posts/markdown-plantuml/
+          - generic [ref=e164]:
+            - img [ref=e166]
+            - generic [ref=e168]:
+              - heading "Markdown PlantUML 图表" [level=3] [ref=e169]
+              - generic [ref=e170]:
+                - generic [ref=e171]: PlantUML
+                - generic [ref=e172]: Firefly
+                - generic [ref=e173]: Markdown
+        - link "Markdown 教程" [ref=e174] [cursor=pointer]:
+          - /url: /posts/markdown-tutorial/
+          - generic [ref=e175]:
+            - img [ref=e177]
+            - generic [ref=e179]:
+              - heading "Markdown 教程" [level=3] [ref=e180]
+              - generic [ref=e181]:
+                - generic [ref=e182]: Markdown
+                - generic [ref=e183]: 文章示例
+        - link "在文章中嵌入视频" [ref=e184] [cursor=pointer]:
+          - /url: /posts/video/
+          - generic [ref=e185]:
+            - img [ref=e187]
+            - generic [ref=e189]:
+              - heading "在文章中嵌入视频" [level=3] [ref=e190]
+              - generic [ref=e191]:
+                - generic [ref=e192]: 示例
+                - generic [ref=e193]: 视频
+                - generic [ref=e194]: Firefly
+    - generic [ref=e198]:
+      - generic [ref=e199]:
+        - text: © 2026 Firefly. All Rights Reserved. /
+        - link "RSS" [ref=e200] [cursor=pointer]:
+          - /url: /rss.xml
+        - text: /
+        - link "Sitemap" [ref=e201] [cursor=pointer]:
+          - /url: /sitemap-index.xml
+      - generic [ref=e202]:
+        - text: Powered by
+        - link "Astro" [ref=e203] [cursor=pointer]:
+          - /url: https://astro.build
+        - text: "&"
+        - link "Firefly" [ref=e204] [cursor=pointer]:
+          - /url: https://github.com/CuteLeaf/Firefly
+  - generic:
+    - generic:
+      - generic:
+        - button "Table of Contents":
+          - img
+    - generic:
+      - button "主页":
+        - img
+    - generic:
+      - button "Back to Top":
+        - img

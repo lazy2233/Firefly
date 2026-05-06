@@ -1,0 +1,10 @@
+[     593ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://api.i-meto.com/meting/api?server=netease&type=playlist&id=10046455237&r=0.8015509635602217:0
+[     593ms] [WARNING] Meting API failed for https://api.i-meto.com/meting/api?server=:server&type=:type&id=:id&r=:r TypeError: Failed to fetch
+    at fetchMetingData (http://localhost:4322/:8795:33)
+    at Object.init (http://localhost:4322/:9002:23)
+    at http://localhost:4322/:10020:13
+    at http://localhost:4322/:10022:3
+    at http://localhost:4322/:10023:3 @ http://localhost:4322/:8811
+[    3759ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ http://localhost:4322/:0
+[    3774ms] [LOG] Pagefind mock enabled in development mode. @ http://localhost:4322/src/components/controls/Search.svelte:152
+[    3815ms] [LOG] All fonts have been loaded @ http://localhost:4322/src/components/features/FontManager.astro?astro&type=script&index=0&lang.ts:2

@@ -160,6 +160,10 @@ export type SiteConfig = {
 		 */
 		noReferrerDomains?: string[];
 	};
+
+	// 整站密码保护配置
+	sitePassword?: string; // 整站访问密码，为空则不启用
+	sitePasswordVersion?: number; // 密码版本号，修改密码时递增此值可强制已认证用户重新输入
 };
 
 export type Favicon = {

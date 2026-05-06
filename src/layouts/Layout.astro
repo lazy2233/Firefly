@@ -7,6 +7,7 @@ import FancyboxManager from "@components/features/FancyboxManager.astro";
 import FontManager from "@components/features/FontManager.astro";
 import MusicManager from "@components/features/MusicManager.astro";
 import SakuraEffect from "@components/features/SakuraEffect.astro";
+import SiteLock from "@components/features/SiteLock.astro";
 import ConfigCarrier from "@components/layout/ConfigCarrier.astro";
 
 import {
@@ -98,6 +99,51 @@ const siteLang = lang.replace("_", "-");
 <html lang={siteLang} class="bg-(--page-bg) text-[14px] md:text-[16px]" data-wallpaper-mode={backgroundWallpaper.mode}>
   <head>
     <meta charset="UTF-8" />
+
+    <!-- 整站密码保护：在页面渲染前检查认证状态，防止内容闪烁 -->
+    {(siteConfig as any).sitePassword && (
+      <script
+        is:inline
+        define:vars={{
+          sitePasswordVersion: (siteConfig as any).sitePasswordVersion || 1,
+        }}
+      >
+        (function() {
+          var AUTH_KEY = 'site_lock_auth_time';
+          var VERSION_KEY = 'site_lock_version';
+          var AUTH_DURATION = 24 * 60 * 60 * 1000;
+          var authTime = localStorage.getItem(AUTH_KEY);
+          var savedVersion = localStorage.getItem(VERSION_KEY);
+          var now = Date.now();
+          var isAuthed = false;
+
+          // 版本变更检查
+          if (savedVersion && parseInt(savedVersion) !== sitePasswordVersion) {
+            localStorage.removeItem(AUTH_KEY);
+            localStorage.removeItem(VERSION_KEY);
+            isAuthed = false;
+          } else if (authTime && (now - parseInt(authTime)) < AUTH_DURATION) {
+            isAuthed = true;
+          }
+
+          if (!isAuthed) {
+            // 未认证：立即隐藏body，防止内容闪烁
+            document.documentElement.classList.add('site-lock-pending');
+          }
+        })();
+      </script>
+    )}
+
+    <style is:global>
+      /* 密码保护：未认证时隐藏body内容，但允许SiteLock遮罩层显示 */
+      .site-lock-pending body > *:not(#site-lock-overlay) {
+        visibility: hidden !important;
+      }
+      .site-lock-pending body > #site-lock-overlay {
+        visibility: visible !important;
+      }
+    </style>
+
     {siteConfig.analytics?.googleAnalyticsId && (
             <GoogleAnalytics analyticsId={siteConfig.analytics.googleAnalyticsId} />
     )}
@@ -537,6 +583,7 @@ const siteLang = lang.replace("_", "-");
     {shouldShowTopHighlight && <div class="top-gradient-highlight" />}
     <ConfigCarrier />
     <MusicManager />
+    <SiteLock />
     <slot />
 
 
@@ -1279,6 +1326,25 @@ function disableAnimation() {
   function updateMainGridCols() {
     const mainGrid = document.getElementById("main-grid");
     if (!mainGrid) return;
+
+    // 侧边栏未启用时，保持单列全宽布局
+    const gridClassCarrier = document.getElementById("grid-class-carrier");
+    if (gridClassCarrier) {
+      const serverGridCols = gridClassCarrier.getAttribute("data-grid-class") || "grid-cols-1";
+      // 如果服务端渲染时就是 grid-cols-1（无侧边栏），则不做任何修改
+      const hasSidebar = serverGridCols !== "grid-cols-1";
+      if (!hasSidebar) {
+        // 移除可能被错误添加的侧边栏grid类
+        ["md:grid-cols-[17.5rem_1fr]", "md:grid-cols-[1fr_17.5rem]", "xl:grid-cols-[17.5rem_1fr_17.5rem]"].forEach(
+          cls => mainGrid.classList.remove(cls)
+        );
+        // 确保 grid-cols-1 存在
+        if (!mainGrid.classList.contains("grid-cols-1")) {
+          mainGrid.classList.add("grid-cols-1");
+        }
+        return;
+      }
+    }
 
     const isPostPage = isCurrentPagePost();
     const sidebarPosition = mainGrid.getAttribute("data-sidebar-position") || "left";

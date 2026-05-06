@@ -1,0 +1,219 @@
+---
+/**
+ * SiteLock - 整站密码保护组件
+ *
+ * 功能：
+ * - 进入页面时隐藏所有内容，显示密码输入界面
+ * - 验证密码后缓存24小时（localStorage 存储认证时间戳）
+ * - 密码变更检测：通过密码版本号（sitePasswordVersion）判断
+ *   当版本号变化时强制重新输入密码
+ *
+ * 配置方式：在 siteConfig.ts 中添加：
+ *   sitePassword: "你的密码",
+ *   sitePasswordVersion: 1,  // 修改密码时递增此值
+ */
+
+import { siteConfig } from "@/config";
+
+// 从 siteConfig 读取密码配置
+const sitePassword = (siteConfig as any).sitePassword || "";
+const sitePasswordVersion = (siteConfig as any).sitePasswordVersion || 1;
+
+// 如果没配置密码，不渲染任何内容
+const isEnabled = !!sitePassword;
+---
+
+{isEnabled && (
+  <div
+    id="site-lock-overlay"
+    class="fixed inset-0 z-[9999] flex items-center justify-center transition-opacity duration-500"
+    data-password-version={sitePasswordVersion}
+  >
+    <!-- 毛玻璃背景 -->
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-md"></div>
+
+    <!-- 密码输入卡片 -->
+    <div class="relative z-10 w-full max-w-sm mx-4 p-8 rounded-2xl bg-white/10 dark:bg-white/5 backdrop-blur-xl border border-white/20 shadow-2xl">
+      <!-- 锁图标 -->
+      <div class="flex justify-center mb-6">
+        <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
+          <svg class="w-8 h-8 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- 标题 -->
+      <h2 class="text-center text-white/90 text-lg font-medium mb-6">
+        此站点需要密码访问
+      </h2>
+
+      <!-- 密码输入框 -->
+      <div class="relative mb-4">
+        <input
+          id="site-lock-password"
+          type="password"
+          placeholder="请输入密码"
+          autocomplete="off"
+          class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:border-white/40 focus:bg-white/15 transition-all text-center text-lg tracking-widest"
+        />
+      </div>
+
+      <!-- 提交按钮 -->
+      <button
+        id="site-lock-submit"
+        class="w-full py-3 rounded-xl bg-white/20 hover:bg-white/30 active:bg-white/15 text-white font-medium transition-all duration-200 cursor-pointer"
+      >
+        验证
+      </button>
+
+      <!-- 错误提示 -->
+      <div id="site-lock-error" class="hidden mt-3 text-center text-red-400 text-sm">
+        密码错误，请重试
+      </div>
+    </div>
+  </div>
+)}
+
+{isEnabled && (
+  <script is:inline define:vars={{ sitePassword, sitePasswordVersion }}>
+    (function() {
+      // 立即执行，防止页面内容闪烁
+      var AUTH_KEY = 'site_lock_auth_time';
+      var VERSION_KEY = 'site_lock_version';
+      var AUTH_DURATION = 24 * 60 * 60 * 1000; // 24小时
+
+      function checkAuth() {
+        var authTime = localStorage.getItem(AUTH_KEY);
+        var savedVersion = localStorage.getItem(VERSION_KEY);
+        var now = Date.now();
+
+        // 密码版本变更 → 强制重新验证
+        if (savedVersion && parseInt(savedVersion) !== sitePasswordVersion) {
+          localStorage.removeItem(AUTH_KEY);
+          localStorage.removeItem(VERSION_KEY);
+          return false;
+        }
+
+        // 检查认证时间是否在24小时内
+        if (authTime) {
+          var elapsed = now - parseInt(authTime);
+          if (elapsed < AUTH_DURATION) {
+            return true;
+          }
+        }
+
+        return false;
+      }
+
+      function unlockSite() {
+        var overlay = document.getElementById('site-lock-overlay');
+        if (overlay) {
+          overlay.style.opacity = '0';
+          setTimeout(function() {
+            overlay.style.display = 'none';
+          }, 500);
+        }
+        // 显示页面内容
+        document.body.classList.remove('site-locked');
+        document.documentElement.classList.remove('site-lock-pending');
+        document.documentElement.style.overflow = '';
+      }
+
+      function showError() {
+        var errorEl = document.getElementById('site-lock-error');
+        if (errorEl) {
+          errorEl.classList.remove('hidden');
+          setTimeout(function() {
+            errorEl.classList.add('hidden');
+          }, 3000);
+        }
+        // 输入框抖动效果
+        var input = document.getElementById('site-lock-password');
+        if (input) {
+          input.classList.add('shake');
+          setTimeout(function() { input.classList.remove('shake'); }, 500);
+        }
+      }
+
+      function verifyPassword() {
+        var input = document.getElementById('site-lock-password');
+        if (!input) return;
+
+        var entered = input.value;
+        if (entered === sitePassword) {
+          // 验证成功：缓存认证信息和版本号
+          localStorage.setItem(AUTH_KEY, String(Date.now()));
+          localStorage.setItem(VERSION_KEY, String(sitePasswordVersion));
+          unlockSite();
+        } else {
+          showError();
+        }
+      }
+
+      // 如果已认证，直接解锁
+      if (checkAuth()) {
+        // 隐藏遮罩但不做动画（已认证时不应看到遮罩）
+        var overlay = document.getElementById('site-lock-overlay');
+        if (overlay) {
+          overlay.style.display = 'none';
+        }
+        document.documentElement.classList.remove('site-lock-pending');
+        document.documentElement.style.overflow = '';
+      } else {
+        // 未认证：锁定页面滚动
+        document.documentElement.style.overflow = 'hidden';
+        document.body.classList.add('site-locked');
+
+        // 绑定事件
+        setTimeout(function() {
+          var submitBtn = document.getElementById('site-lock-submit');
+          var passwordInput = document.getElementById('site-lock-password');
+
+          if (submitBtn) {
+            submitBtn.addEventListener('click', verifyPassword);
+          }
+
+          if (passwordInput) {
+            passwordInput.addEventListener('keydown', function(e) {
+              if (e.key === 'Enter') {
+                verifyPassword();
+              }
+            });
+            // 自动聚焦
+            setTimeout(function() { passwordInput.focus(); }, 100);
+          }
+        }, 0);
+      }
+    })();
+  </script>
+)}
+
+{isEnabled && (
+  <style is:global>
+    .site-locked {
+      overflow: hidden !important;
+    }
+
+    #site-lock-overlay {
+      opacity: 1;
+    }
+
+    /* 输入框抖动动画 */
+    @keyframes siteLockShake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+      20%, 40%, 60%, 80% { transform: translateX(4px); }
+    }
+
+    .shake {
+      animation: siteLockShake 0.5s ease-in-out;
+    }
+
+    /* 密码输入框样式 */
+    #site-lock-password::-webkit-input-placeholder {
+      letter-spacing: 0;
+    }
+  </style>
+)}
